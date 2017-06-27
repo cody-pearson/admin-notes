@@ -16,13 +16,21 @@
 + `echo $PATH`          - displays the executable search path
 + `echo $USER`          - displays the users username
 + `echo $UID`           - displays the users ID
-+ `echo $HOME`         - displays the users home directory
++ `echo $HOME`          - displays the users home directory
 + `echo $SHELL`         - displays the shell you're using
 + `echo $BASH_VERSION`  - displays bash version
++ `echo $HOSTNAME`      - name of the current host
++ `echo $OSTYPE`        - string describing the operating system bash is running on
++ `$$`                  - prints process ID of the current shell
++ `$!`                  - prints process ID of the most recently invoked background job
++ `$?`                  - displays the exit status of the last command
++ `$#`                  - number of command line aruments given to the script
++ `$IFS`                - the (input) field separator
++ `$0`                  - name of the shell or shell script
 + `bash`                - if you want to use bash (type exit to go back to your normal shell)
-+ `whereis bash`        - finds out where bash is on your system
-+ `which <program>`     - csh find path of program
-+ `type <program>`      - better find path of program
++ `whereis bash`        - locates source/binary and manuals sections for specified files
++ `which <program>`     - returns the pathnames of the files which would be executed in the current environment
++ `command -v <cmd> \|\| type <cmd>`    - better find path of program
 + `clear`               - clears content on window (hide displayed lines)
 
 ### 1.1. File Commands
@@ -51,13 +59,16 @@
 + `grep -i <pattern> <dir>`       - case insensitive search for pattern in directory
 + `find <dir> -name "name*"`      - find file with "name" in dir
 + `locate <file>`                 - find file (quick system index search)
-+ `tar -zxvf <file.tar.gz>`       - unzip, extract, verbose, force tar file in current dir
++ `tar -zxvf <file.tar.gz>`       - unzip, extract, verbose, use tar file in current dir
++ `somecmd | tee -a output.txt`   - append output of "somecmd" to multiple files 
 
 ### 1.2. Directory Commands
 + `mkdir -p <dirname>`  - makes a new directory \/ `-p` makes missing dirs
 + `cd`                  - changes to home
 + `cd <dirname>`        - changes directory
 + `pwd`                 - tells you where you currently are
++ `pushd`               - put the current directory on the stack and change directory to the one specified as a parameter
++ `popd`                - go back to the directory on the stack
 
 ### 1.3. SSH, System Info & Network Commands
 + `ssh user@host`            - connects to host as user
@@ -95,9 +106,6 @@
 + `varname="value"`                - defines a variable
 + `varname=$(command)`             - defines a variable to be in the environment of a particular subprocess
 + `echo "$varname"`                - checks a variable's value
-+ `echo "$$"`                      - prints process ID of the current shell
-+ `echo "$!"`                      - prints process ID of the most recently invoked background job
-+ `echo "$?"`                      - displays the exit status of the last command
 + `export VARNAME=value`           - defines an environment variable (will be available in subprocesses)
 + `array[0] = val`                 - several ways to define an array
 + `array[1] = val`
@@ -153,7 +161,7 @@
 > `$@` is equal to `"$1"` `"$2"`... `"$N"`, where N is the number of positional parameters. 
 > `$#` holds the number of positional parameters.
 
-```shell
+```
 functname() {
   shell commands
 }
@@ -211,26 +219,25 @@ if [[ "$condition" ]]; then
   statements]
 fi
 ```
-
 ```
-for x := 1 to 10 do
+for c in {0..5}; do
 begin
-  statements
+  echo $c
 end
+# Outputs 1 2 3 4 5 on separate lines
 ```
-
 ```
-for name [in list]; do
+for name in svr1 svr2 svr3 svr4 svr5; do
   statements that can use "$name"
 done
+# Runs cmd on each item in list
 ```
-
 ```
-for (( initialisation ; ending condition ; update )); do
-  statements...
+for (( c=1;c<=5;c++ )); do
+  echo "$c"
 done
+# Outputs 1 2 3 4 5 on separate lines
 ```
-
 ```
 case expression in
   pattern1 )
@@ -241,7 +248,6 @@ case expression in
            ;;
 esac
 ```
-
 ```
 select name [in list]; do
   statements that can use "$name"
@@ -313,8 +319,14 @@ done
 ## 6. Tips and Tricks
 + `alias test=$(echo "test")`                            - sets an alias called "test" \/ temporary and only for that shell
 + `echo "alias test=$(echo "test")" >> ~/.bash_profile`  - sets an alias called "test" \/ permanent alias in bash shell
-+ `chmod (perm) <file>`                                                - permissions are: 4-read(r) \/ 2-write(w) \/ 1-execute(x)
-+ `#!usr/bin/env bash` \/ `#!/bin/bash`                  - should be at the top of all bash scripts
++ `unalias test`                                         - removes alias "test" \/ if added with alias test='ls'
++ `chmod (perm) <file>`                                  - permissions are: 4-read(r) \/ 2-write(w) \/ 1-execute(x)
++ `#!usr/bin/env bash` \|\| `#!/bin/bash`                - should be at the top of all bash scripts
++ `man <somecmd>`                                        - help manuals for somecmd
++ `apropos <somecmd>`                                    - search help manuals 
++ `chown user:group file`                                - change owner and group for file
++ `basename`                                             - strip dir and suffix from filenames
++ `dmesg`                                                - print kernel & driver messages
 
 
 ## 7. Debugging Shell Programs
@@ -324,3 +336,8 @@ done
 + `set -o verbose`      - alternative (set option in script)
 + `bash -x scriptname`  - echo commands after command-line processing
 + `set -o xtrace`       - alternative (set option in script)
++ `bash -C scriptname`  - prevent overwriting of files by redirection 
++ `set -o noclobber`    - alternative (set option in script)
++ `shopt -s nullglob`   - filename patterns which match no files to expand to a null string, rather than themselves (set in script)
++ `bash -e scriptname`  - abort script at first error, when a command exits with non-zero status (except in loops, if-tests, lists)
++ `set -o errexit`      - alternative (set option in script)
