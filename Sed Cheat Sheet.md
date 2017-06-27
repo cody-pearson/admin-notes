@@ -1,6 +1,6 @@
 # USEFUL ONE-LINE SCRIPTS FOR SED (Unix stream editor)
 
-## 0. FILE SPACING:
+## 0. FILE SPACING
 + `sed G`                   - double space a file
 + `sed '/^$/d;G'`           - double space a file which already has blank lines in it
 + `sed 'G;G'`               - triple space a file
@@ -9,14 +9,13 @@
 + `sed '/regex/G'`          - insert a blank line below every line which matches "regex"
 + `sed '/regex/{x;p;x;G;}'` - insert a blank line above and below every line which matches "regex"
 
-## 1. NUMBERING:
+## 1. NUMBERING
 + `sed = filename | sed 'N;s/\n/\t/'`                            - number each line of a file
 + `sed = filename | sed 'N; s/^/   /; s/ *\(.\{6,\}\)\n/\1  /'`  - number each line of a file (number on left, right-aligned)
 + `sed '/./=' filename | sed '/./N; s/\n/ /'`                    - number each line of file, but only print numbers if line is not blank
 + `sed -n '$='`                                                  - count lines (emulates "wc -l")
 
-## 2. TEXT CONVERSION AND SUBSTITUTION:
-
+## 2. TEXT CONVERSION AND SUBSTITUTION
 ### 2.1 IN UNIX ENVIRONMENT: convert DOS newlines (CR/LF) to Unix format.
 + `sed 's/.$//'`        - assumes that all lines end with CR/LF
 + `sed 's/^M$//'`       - in bash/tcsh, press Ctrl-V then Ctrl-M
@@ -63,50 +62,50 @@
 + `sed -e :a -e '/\\$/N; s/\\\n//; ta'`               - if a line ends with a backslash, append the next line to it
 + `sed -e :a -e '$!N;s/\n=/ /;ta' -e 'P;D'`           - if a line begins with an equal sign, replace it with a space and append it
 + `gsed ':a;s/\B[0-9]\{3\}\>/,&/;ta'`                    - add commas to numeric strings, changing "1234567" to "1,234,567" \/ GNU sed
-+ `sed -e :a -e 's/\(.*[0-9]\)\([0-9]\{3\}\)/\1,\2/;ta'` - add commas to numeric strings, changing "1234567" to "1,234,567" \/ other seds
++ `sed -e :a -e 's/\(.*[0-9]\)\([0-9]\{3\}\)/\1,\2/;ta'` - add commas to numeric strings, changing "1234567" to "1,234,567" \/ other
 + `gsed -r ':a;s/(^|[^0-9.])([0-9]+)([0-9]{3})/\1\2,\3/g;ta'` - add commas to numbers with decimal points and minus signs \/ GNU sed
 + `gsed '0~5G'`                                       - add a blank line every 5 lines (after lines 5, 10, 15, 20, etc.) \/ GNU sed only
 + `sed 'n;n;n;n;G;'`                                  - add a blank line every 5 lines (after lines 5, 10, 15, 20, etc.) \/ other seds
 
-## 3. SELECTIVE PRINTING OF CERTAIN LINES:
-+ `sed 10q`                                         - print first 10 lines of file (emulates behavior of "head")
-+ `sed q`                                           - print first line of file (emulates "head -1")
-+ `sed -e :a -e '$q;N;11,$D;ba'`                    - print the last 10 lines of a file (emulates "tail")
-+ `sed '$!N;$!D'`                                   - print the last 2 lines of a file (emulates "tail -2")
-+ `sed '$!d'`                                       - print the last line of a file (emulates "tail -1") \/ method 1
-+ `sed -n '$p'`                                     - print the last line of a file (emulates "tail -1") \/ method 2
-+ `sed -e '$!{h;d;}' -e x`                          - print the next-to-the-last line of a file \/ for 1-line files, print blank line
-+ `sed -e '1{$q;}' -e '$!{h;d;}' -e x`              - print the next-to-the-last line of a file \/ for 1-line files, print the line
-+ `sed -e '1{$d;}' -e '$!{h;d;}' -e x`              - print the next-to-the-last line of a file \/ for 1-line files, print nothing
-+ `sed -n '/regexp/p'`                              - print only lines which match regular expression (emulates "grep") \/ method 1
-+ `sed '/regexp/!d'`                                - print only lines which match regular expression (emulates "grep") \/ method 2
-+ `sed -n '/regexp/!p'`                             - print only lines which do NOT match regexp (emulates "grep -v") \/ method 1
-+ `sed '/regexp/d'`                                 - print only lines which do NOT match regexp (emulates "grep -v") \/ method 2
-+ `sed -n '/regexp/{g;1!p;};h'`                     - print the line immediately before a regexp, but not the line containing the regexp
-+ `sed -n '/regexp/{n;p;}'`                         - print the line immediately after a regexp, but not the line containing the regexp
-+ `sed -n -e '/regexp/{=;x;1!p;g;$!N;p;D;}' -e h`   - print 1 line of context before and after regexp, with line number
-+ `sed '/AAA/!d; /BBB/!d; /CCC/!d'`                 - grep for AAA and BBB and CCC (in any order)
+## 3. SELECTIVE PRINTING OF CERTAIN LINES
++ `sed 10q`                                        - print first 10 lines of file (emulates behavior of "head")
++ `sed q`                                          - print first line of file (emulates "head -1")
++ `sed -e :a -e '$q;N;11,$D;ba'`                   - print the last 10 lines of a file (emulates "tail")
++ `sed '$!N;$!D'`                                  - print the last 2 lines of a file (emulates "tail -2")
++ `sed '$!d'`                                      - print the last line of a file (emulates "tail -1") \/ method 1
++ `sed -n '$p'`                                    - print the last line of a file (emulates "tail -1") \/ method 2
++ `sed -e '$!{h;d;}' -e x`                         - print the next-to-the-last line of a file \/ for 1-line files, print blank line
++ `sed -e '1{$q;}' -e '$!{h;d;}' -e x`             - print the next-to-the-last line of a file \/ for 1-line files, print the line
++ `sed -e '1{$d;}' -e '$!{h;d;}' -e x`             - print the next-to-the-last line of a file \/ for 1-line files, print nothing
++ `sed -n '/regexp/p'`                             - print only lines which match regular expression (emulates "grep") \/ method 1
++ `sed '/regexp/!d'`                               - print only lines which match regular expression (emulates "grep") \/ method 2
++ `sed -n '/regexp/!p'`                            - print only lines which do NOT match regexp (emulates "grep -v") \/ method 1
++ `sed '/regexp/d'`                                - print only lines which do NOT match regexp (emulates "grep -v") \/ method 2
++ `sed -n '/regexp/{g;1!p;};h'`                    - print the line immediately before a regexp, but not the line containing the regexp
++ `sed -n '/regexp/{n;p;}'`                        - print the line immediately after a regexp, but not the line containing the regexp
++ `sed -n -e '/regexp/{=;x;1!p;g;$!N;p;D;}' -e h`  - print 1 line of context before and after regexp, with line number
++ `sed '/AAA/!d; /BBB/!d; /CCC/!d'`                - grep for AAA and BBB and CCC (in any order)
 + `sed '/AAA.*BBB.*CCC/!d'`                                         - grep for AAA and BBB and CCC (in that order)
 + `sed -e '/AAA/b' -e '/BBB/b' -e '/CCC/b' -e d`                    - grep for AAA or BBB or CCC (emulates "egrep") \/ most seds
 + `gsed '/AAA\|BBB\|CCC/!d'`                                        - grep for AAA or BBB or CCC (emulates "egrep") \/ GNU sed only
-+ `sed -e '/./{H;$!d;}' -e 'x;/AAA/!d;'`                            - print paragraph if it contains AAA (blank lines separate paragraphs)
++ `sed -e '/./{H;$!d;}' -e 'x;/AAA/!d;'`                            - print paragraph if it contains AAA (blanks separate paragraphs)
 + `sed -e '/./{H;$!d;}' -e 'x;/AAA/!d;/BBB/!d;/CCC/!d'`             - print paragraph if it contains AAA and BBB and CCC (in any order)
 + `sed -e '/./{H;$!d;}' -e 'x;/AAA/b' -e '/BBB/b' -e '/CCC/b' -e d` - print paragraph if it contains AAA or BBB or CCC
 + `gsed '/./{H;$!d;};x;/AAA\|BBB\|CCC/b;d'`                         - print paragraph if it contains AAA or BBB or CCC \/ GNU sed only
 + `sed -n '/^.\{65\}/p'`                                            - print only lines of 65 characters or longer
-+ `sed -n '/^.\{65\}/!p'`                           - print only lines of less than 65 characters \/ method 1
-+ `sed '/^.\{65\}/d'`                               - print only lines of less than 65 characters \/ method 2
-+ `sed -n '/regexp/,$p'`                            - print section of file from regular expression to end of file
-+ `sed -n '8,12p'`                                  - print section of file based on line numbers (lines 8-12, inclusive) \/ method 1
-+ `sed '8,12!d'`                                    - print section of file based on line numbers (lines 8-12, inclusive) \/ method 2
-+ `sed -n '52p'`                                    - print line number 52 \/ method 1
-+ `sed '52!d'`                                      - print line number 52 \/ method 2
-+ `sed '52q;d'`                                     - print line number 52 \/ method 3, efficient on large files
-+ `gsed -n '3~7p'`                                  - beginning at line 3, print every 7th line \/ GNU sed only
-+ `sed -n '3,${p;n;n;n;n;n;n;}'`                    - beginning at line 3, print every 7th line \/ other seds
-+ `sed -n '/Iowa/,/Montana/p'`                      - print section of file between two regular expressions (inclusive) \/ case sensitive
++ `sed -n '/^.\{65\}/!p'`                          - print only lines of less than 65 characters \/ method 1
++ `sed '/^.\{65\}/d'`                              - print only lines of less than 65 characters \/ method 2
++ `sed -n '/regexp/,$p'`                           - print section of file from regular expression to end of file
++ `sed -n '8,12p'`                                 - print section of file based on line numbers (lines 8-12, inclusive) \/ method 1
++ `sed '8,12!d'`                                   - print section of file based on line numbers (lines 8-12, inclusive) \/ method 2
++ `sed -n '52p'`                                   - print line number 52 \/ method 1
++ `sed '52!d'`                                     - print line number 52 \/ method 2
++ `sed '52q;d'`                                    - print line number 52 \/ method 3, efficient on large files
++ `gsed -n '3~7p'`                                 - beginning at line 3, print every 7th line \/ GNU sed only
++ `sed -n '3,${p;n;n;n;n;n;n;}'`                   - beginning at line 3, print every 7th line \/ other seds
++ `sed -n '/Iowa/,/Montana/p'`                     - print section of file between two regular expressions (inclusive) \/ case sensitive
 
-## 4. SELECTIVE DELETION OF CERTAIN LINES:
+## 4. SELECTIVE DELETION OF CERTAIN LINES
 + `sed '/Iowa/,/Montana/d'`                                    - print all of file EXCEPT section between 2 regular expressions
 + `sed '$!N; /^\(.*\)\n\1$/!P; D'`                             - delete duplicate, consecutive lines from a file (emulates "uniq")
 + `sed -n 'G; s/\n/&&/; /^\([ -~]*\n\).*\n\1/d; s/\n//; h; P'` - delete duplicate, nonconsecutive lines from a file
@@ -121,7 +120,7 @@
 + `sed '/pattern/d'`                                           - delete lines matching pattern
 + `sed '/^$/d'`                                                - delete ALL blank lines from a file (same as "grep '.' ") \/ method 1
 + `sed '/./!d'`                                                - delete ALL blank lines from a file (same as "grep '.' ") \/ method 2
-+ `sed '/./,/^$/!d'`                         - delete all CONSECUTIVE blank lines from file except the first \/ 0 blanks at top, 1 at EOF
++ `sed '/./,/^$/!d'`                         - delete all CONSECUTIVE blank lines from file except the first \/ 0 blank at top, 1 at EOF
 + `sed '/^$/N;/\n$/D'`                       - delete all CONSECUTIVE blank lines from file except the first \/ 1 blank at top, 0 at EOF
 + `sed '/^$/N;/\n$/N;//D'`                   - delete all CONSECUTIVE blank lines from file except the first 2
 + `sed '/./,$!d'`                            - delete all leading blank lines at top of file
