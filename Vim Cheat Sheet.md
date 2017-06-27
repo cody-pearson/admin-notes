@@ -1,13 +1,13 @@
 # Vim Cheat Sheet
 
-### Global                               
+## 0. Global                               
 + `:help keyword` - open help for keyword
 + `:o file` - open file                  
 + `:saveas file` - save file as          
 + `:close` - close current pane          
 + `:set nu` - show line numbers          
 
-### Cursor Movement
+## 1. Cursor Movement
 + `h` - move cursor left
 + `j` - move cursor down
 + `k` - move cursor up
@@ -29,7 +29,7 @@
 + `Ctrl + d` - move down half a page
 + `Ctrl + u` - move up half a page
 
-### Insert Mode
+## 2. Insert Mode
 + `i` - insert before cursor
 + `I` - insert at beginning of the line
 + `a` - append after the cursor
@@ -38,14 +38,14 @@
 + `O` - open a new line above the current line
 + `Esc` - exit insert mode
 
-### Editing
+## 3. Editing
 + `r` - replace a single character
 + `R` - replace multiple characters
 + `u` - undo
 + `Ctrl + r` - redo
 + `.` - repeat last command
 
-### Cut and Paste
+## 4. Cut and Paste
 + `yy` - copy a line
 + `p` - paste after cursor
 + `P` - paste before cursor
@@ -53,13 +53,13 @@
 + `D` - delete to the end of the line
 + `x` - delete a single character
 
-### Exiting
+## 5. Exiting
 + `:w` - save the file, don't exit
 + `:wq` - save and quit
 + `:q` - quit
 + `:q!`or`ZQ` - quit and discard unsaved changes
 
-### Search and Replace
+## 6. Search and Replace
 + `/pattern` - search for pattern
 + `?pattern` - search backwards for pattern
 + `n` - repeat search in same direction
