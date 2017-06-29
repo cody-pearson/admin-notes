@@ -33,76 +33,8 @@
 + `command -v <cmd> \|\| type <cmd>`    - better find path of program
 + `clear`               - clears content on window (hide displayed lines)
 
-### 1.1. File Commands
-+ `ls`                            - lists your files
-+ `ls -lrt`                       - lists your files in 'long format', reverse order, and last modified
-+ `ls -a`                         - lists all files, including hidden files
-+ `ln -s <filename> <link>`       - creates symbolic link to file
-+ `touch <filename>`              - creates or updates your file
-+ `cat > <filename>`              - places standard input into file
-+ `more <filename>`               - shows the first part of a file (move with space and type q to quit)
-+ `head <filename>`               - outputs the first 10 lines of file
-+ `tail <filename>`               - outputs the last 10 lines of file (useful with -f option)
-+ `vim <filename>`                - lets you create and edit a file
-+ `mv <filename1> <filename2>`    - moves a file
-+ `cp <filename1> <filename2>`    - copies a file
-+ `rm <filename>`                 - removes a file
-+ `diff <filename1> <filename2>`  - compares files, and shows where they differ
-+ `wc <filename>`                 - tells you how many lines, words and characters there are in a file
-+ `chmod -options <filename>`     - lets you change the read, write, and execute permissions on your files
-+ `gzip <filename>`               - compresses files
-+ `gunzip <filename>`             - uncompresses files compressed by gzip
-+ `gzcat <filename>`              - lets you look at gzipped file without actually having to gunzip it
-+ `grep <pattern> <filenames>`    - looks for the string in the files
-+ `grep -r <pattern> <dir>`       - search recursively for pattern in directory
-+ `grep -v <pattern> <dir>`       - inverted search for pattern in directory
-+ `grep -i <pattern> <dir>`       - case insensitive search for pattern in directory
-+ `find <dir> -name "name*"`      - find file with "name" in dir
-+ `locate <file>`                 - find file (quick system index search)
-+ `tar -zxvf <file.tar.gz>`       - unzip, extract, verbose, use tar file in current dir
-+ `somecmd | tee -a output.txt`   - append output of "somecmd" to multiple files 
-
-### 1.2. Directory Commands
-+ `mkdir -p <dirname>`  - makes a new directory \/ `-p` makes missing dirs
-+ `cd`                  - changes to home
-+ `cd <dirname>`        - changes directory
-+ `pwd`                 - tells you where you currently are
-+ `pushd`               - put the current directory on the stack and change directory to the one specified as a parameter
-+ `popd`                - go back to the directory on the stack
-
-### 1.3. SSH, System Info & Network Commands
-+ `ssh user@host`            - connects to host as user
-+ `ssh -p <port> user@host`  - connects to host on specified port as user
-+ `ssh-copy-id user@host`    - adds your ssh key to host for user to enable a keyed or passwordless login
-+ `whoami`                   - returns your username
-+ `passwd`                   - lets you change your password
-+ `quota -v`                 - shows what your disk quota is
-+ `date`                     - shows the current date and time
-+ `cal`                      - shows the month's calendar
-+ `uptime`                   - shows current uptime
-+ `w`                        - displays whois online
-+ `finger <user>`            - displays information about user
-+ `uname -a`                 - shows kernel information
-+ `cat /etc/*-release`       - shows distribution release info (redhat derivatives)
-+ `man <command>`            - shows the manual for specified command
-+ `df`                       - shows disk usage
-+ `du <filename>`            - shows the disk usage of the files and directories in filename (du -s give only a total)
-+ `last <yourUsername>`      - lists your last logins
-+ `ps -u yourusername`       - lists your processes
-+ `kill <PID>`               - kills (ends) the processes with the ID you gave
-+ `killall <processname>`    - kill all processes with the name
-+ `top`                      - displays your currently active processes
-+ `bg`                       - lists stopped or background jobs ; resume a stopped job in the background
-+ `fg`                       - brings the most recent job in the foreground
-+ `fg <job>`                 - brings job to the foreground
-+ `ping <host>`              - pings host and outputs results
-+ `whois <domain>`           - gets whois information for domain
-+ `dig <domain>`             - gets DNS information for domain
-+ `dig -x <host>`            - reverses lookup host
-+ `wget <file>`              - downloads file
-
 ## 2. Basic Shell Programming
-### 2.1. Variables
+### 2.1 Variables
 + `varname="value"`                - defines a variable
 + `varname=$(command)`             - defines a variable to be in the environment of a particular subprocess
 + `echo "$varname"`                - checks a variable's value
@@ -156,7 +88,7 @@
 + `[[:word:]]`                   - matches letters, digits, and the character _.
 + `$(UNIX command)`              - command substitution: runs the command and returns standard output
 
-### 2.2. Functions
+### 2.2 Functions
 > The function refers to passed arguments by position (as if they were positional parameters).
 > `$@` is equal to `"$1"` `"$2"`... `"$N"`, where N is the number of positional parameters. 
 > `$#` holds the number of positional parameters.
@@ -169,7 +101,7 @@ functname() {
 + `unset -f functname`  - deletes a function definition
 + `declare -f`          - displays all defined functions in your login session
 
-### 2.3. Flow Control
+### 2.3 Flow Control
 | Operators                              |                                           |
 |:--------------------------------------:|:-----------------------------------------:|
 | [[ statement1 ]]  **&&** [[ statement2 ]]  | and operator                              |
@@ -298,7 +230,6 @@ done
 | n **>&-**           | closes the ouput from file descriptor n                                 |
 | n **<&-**           | closes the input from file descripor n                                  |
 
-
 ## 5. Process Handling
 + `my_cmd &`         - runs job in the background and prompts back the shell
 + `jobs`             - lists all jobs (use with -l to see associated PID)
@@ -314,20 +245,6 @@ done
 + `ps -a`            - selects all processes with a tty except session leaders
 + `disown <PID|JID>` - removes the process from the list of jobs
 + `wait`             - waits until all background jobs have finished
-
-
-## 6. Tips and Tricks
-+ `alias test=$(echo "test")`                            - sets an alias called "test" \/ temporary and only for that shell
-+ `echo "alias test=$(echo "test")" >> ~/.bash_profile`  - sets an alias called "test" \/ permanent alias in bash shell
-+ `unalias test`                                         - removes alias "test" \/ if added with alias test='ls'
-+ `chmod (perm) <file>`                                  - permissions are: 4-read(r) \/ 2-write(w) \/ 1-execute(x)
-+ `#!usr/bin/env bash` \|\| `#!/bin/bash`                - should be at the top of all bash scripts
-+ `man <somecmd>`                                        - help manuals for somecmd
-+ `apropos <somecmd>`                                    - search help manuals 
-+ `chown user:group file`                                - change owner and group for file
-+ `basename`                                             - strip dir and suffix from filenames
-+ `dmesg`                                                - print kernel & driver messages
-
 
 ## 7. Debugging Shell Programs
 + `bash -n scriptname`  - don't run commands; check for syntax errors only
