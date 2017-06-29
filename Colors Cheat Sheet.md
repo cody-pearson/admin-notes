@@ -51,7 +51,7 @@ To see the extended 256 colors (as used by setaf in urxvt):
 + `$ printf '\e[48;5;%dm ' {0..255}; printf '\e[0m \n'`
 
 If you want numbers and an ordered output:
-```
+```bash
 #!/bin/bash
 color(){
     for c; do
@@ -75,7 +75,7 @@ The basics is:
 > fb is front/back or 3/4. 
 
 A simple test of your console capacity to present so many colors is:
-```
+```bash
 for r in {200..255..5}; do 
   fb=4;g=1;b=1;printf '\e[0;%s8;2;%s;%s;%sm   ' "$fb" "$r" "$g" "$b" 
 done 
@@ -87,7 +87,7 @@ If that small change is visible, your console is capable of 16 million colors.
 > Each r, g, and b is a value from 0 to 255 for RGB (Red,Green,Blue).
 
 If your console type support this, this code will create a color table:
-```
+```bash
 mode2header(){
     #### For 16 Million colors use \e[0;38;2;R;G;Bm each RGB is {0..255}
     printf '\e[mR\n' # reset the colors.
@@ -95,7 +95,7 @@ mode2header(){
     printf '\e[m%59s\n'   "for the ansi option: \e[0;38;2;r;g;bm or \e[0;48;2;r;g;bm :"
 }
 mode2colors(){
-    # foreground or background (only 3 or 4 are accepted)
+    ## foreground or background (only 3 or 4 are accepted)
     local fb="$1"
     [[ $fb != 3 ]] && fb=4
     local samples=(0 63 127 191 255)
@@ -113,7 +113,7 @@ mode2colors 4
 ```
 
 To convert an hex color value to a (nearest) 0-255 color index:
-```
+```bash
 fromhex(){
     hex=${1#"#"}
     r=$(printf '0x%0.2s' "$hex")
@@ -126,7 +126,7 @@ fromhex(){
 ```
 
 Use it as:
-```
+```bash
 $ fromhex 00fc7b
 048
 $ fromhex #00fc7b
@@ -134,10 +134,10 @@ $ fromhex #00fc7b
 ```
 
 To find the color number as used in HTML colors format:
-```
-#!/bin/dash
+```bash
+#!/bin/bash
 tohex(){
-    dec=$(($1%256))   ### input must be a number in range 0-255.
+    dec=$(($1%256))   ## input must be a number in range 0-255.
     if [ "$dec" -lt "16" ]; then
         bas=$(( dec%16 ))
         mul=128
@@ -165,8 +165,8 @@ done
 ```
 
 Use it as ("basic" is the first 16 colors, "color" is the main group, "gray" is the last gray colors):
-```
-$ tohex 125                  ### A number in range 0-255
+```bash
+$ tohex 125                  ## A number in range 0-255
 dec= 125 color= #af005f
 $ tohex 6
 dec=   6 basic= #008080
