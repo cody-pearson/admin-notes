@@ -30,7 +30,7 @@
 + `bash`                - if you want to use bash (type exit to go back to your normal shell)
 + `whereis bash`        - locates source/binary and manuals sections for specified files
 + `which <program>`     - returns the pathnames of the files which would be executed in the current environment
-+ `command -v <cmd> \|\| type <cmd>`    - better find path of program
++ `command -v <cmd>` \|\| `type <cmd>`    - better find path of program
 + `clear`               - clears content on window (hide displayed lines)
 
 ## 2. Basic Shell Programming
