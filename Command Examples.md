@@ -1,28 +1,39 @@
-- [x] Start example page
-- [ ] Clean cmd examples doc
-
 # Examples of various commands
 
-## 0. My usual formats:
+## 0. My usuals:
 ```
 #!/usr/bin/env bash
 
 #========================================================== 
-# title           :example_title 
-# description     :example description
-# author          :Pearson 
-# date            :today 
-# version         :1.0     
-# usage           :./example_title 
-# notes           :constantly changing 
+# title           : example_title 
+# description     : example description
+# author          : Pearson 
+# date            : today 
+# version         : 1.0     
+# usage           : ./example_title 
+# notes           : constantly changing 
 # TODO            : 1) Add more stuff 
 #                   2)  
 #========================================================== 
 ```
+```bash
+## Logging function
+logit () {
+  printf $1
+  printf $1 >> $logfile.txt
+}
+```
 ``` bash
-## Check for root
+## Check for root v1
 if [[ "$USER" != "root" ]]; then
-  echo "***ERROR*** You are not root."
+  echo "***ERROR*** You are not root"
+  exit 1
+fi
+```
+```bash
+## Check for root v2
+if [[ $UID -ne 0 ]]; then
+  echo "***ERROR*** You are not root"
   exit 1
 fi
 ```
@@ -46,7 +57,7 @@ fi
 + `diff <filename1> <filename2>`  - Compares files, and shows where they differ
 + `wc <filename>`                 - Tells you how many lines, words and characters there are in a file
 + `chmod -options <filename>`     - Lets you change the read, write, and execute permissions on your files
-+ `chown user:group file`         - Change owner and group for file
++ `chown user:group <filename>`   - Change owner and group for file
 + `gzip <filename>`               - Compresses files
 + `gunzip <filename>`             - Uncompresses files compressed by gzip
 + `gzcat <filename>`              - Lets you look at gzipped file without actually having to gunzip it
@@ -151,64 +162,21 @@ for (i = 0; i < $1; i++) {printf("*")}; print "" }'`  - Graph # of connections f
 
 ## 3. For loops
 ```bash
-# Computer hardware overview v2
+## Computer hardware overview v2
 for host in host1 host2 host3; do 
   ssh $host "lshw -html" > $host_hardware.html 
 done
 ```
 ```bash
-# Setup ssh keys for all systems
+## Setup ssh keys for all systems
 ssh-keygen &&
 for host in $(cat /path/to/hosts.txt); do
   ssh-copy-id "$host"
 done
 ```
 ```bash
-# Remote command execution
+## Remote command execution
 for host in $(cat /path/to/hosts.txt); do
   ssh user@"$host" 'sudo <some command> > /path/to/logs/<some command>.$(date +"%Y%m%d_$H%M%S")'
 done
 ```
-------------------------------------------------------------
-
-## 10. Exit codes
-### 10.1 General
-| Exit Code Number | Meaning                        | Comments                                                                         |
-|:------------|:------------------------------:|:---------------------------------------------------------------------------------|
-| 0           | Success                        |                                                                                  |
-| 1           | Catchall for general errors    | Miscellaneous errors, such as "divide by zero" and other impermissible operations|
-| 2           | Misuse of shell builtins       | Missing keyword or command, or permission problem                                |
-| 126         | Command invoked cannot execute | Permission problem or command is not an executable                               |
-| 127         |"command not found"             | Possible problem with $PATH or a typo                                            |
-| 128         | Invalid argument to exit       | exit takes only integer args in the range 0 - 255                                |
-| 130         | Script terminated by Control-C | Control-C is fatal error signal 2, (130 = 128 + 2, see above)                    |
-| 255*        | Exit status out of range       | exit takes only integer args in the range 0 - 255                                |
-
-### 10.2 Yum check-update
- - exit 0   --  No packages are available for update
- - exit 1   --  Error occurred
- - exit 100  --  Packages are available for an update. (Also returns a list of the packages to be updated)
- 
- ### 10.3 Rsync
-| Exit Code Number | Meaning                                    | 
-|:------------|:-----------------------------------------------:|
-| 0           | Success                                         |
-| 1           | Syntax or usage error                           |
-| 2           | Protocol incompatibility                        |
-| 3           | Errors selecting input/output files, dirs       |
-| 4           | Requested action not supported                  |
-| 5           | Error starting client-server protocol           |
-| 6           | Daemon unable to append to log-file             |
-| 10          | Error in socket I/O                             |
-| 11          | Error in file I/O                               |
-| 12          | Error in rsync protocol data stream             |
-| 13          | Errors with program diagnostics                 |
-| 14          | Error in IPC code                               |
-| 20          | Received SIGUSR1 or SIGINT                      |
-| 21          | Some error returned by waitpid()                |
-| 22          | Error allocating core memory buffers            |
-| 23          | Partial transfer due to error                   |
-| 24          | Partial transfer due to vanished source files   |
-| 25          | The --max-delete limit stopped deletions        |
-| 30          | Timeout in data send/receive                    |
-| 35          | Timeout waiting for daemon connection           |
